@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Compass.shapes;
+using System;
+
 
 namespace Compass {
 
-    public class PointP : IParser<double> {
+    public class PointP : IParser<Point> {
 
-        public PointP() {
+        private readonly IParser<double> parser;
+
+        public PointP(IParser<double> parser) {
             this.parser = parser;
         }
 
-        public (double, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
-            throw new NotImplementedException();
-            
-        }
+        public (Point, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) =>
+            (from x in this.parser
+             from y in this.parser
+             select new Point(x, y))
+            .Call(bytes);
     }
 }

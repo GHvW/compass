@@ -43,7 +43,7 @@ namespace Compass.Test {
         public void SelectManyWithSelectorTest() {
             var bytes = new byte[] { 
                 0b00000000, 0b00000000, 0b00100011, 0b00101000, 
-                0b00000000, 0b00000000, 0b00100011, 0b00101000, 
+                0b00000000, 0b00000000, 0b00011111, 0b01000000,
                 0b00000000, 0b00000000, 0b00100011, 0b00101000 };
 
             IParser<int> parser = new EndianOps(Endian.Big);
@@ -55,7 +55,27 @@ namespace Compass.Test {
                  .Call(bytes)
                  .Value;
 
-            Assert.Equal(18000, result);
+            Assert.Equal(17000, result);
+        }
+
+
+        [Fact]
+        public void TakeTest() {
+            var bytes = new byte[] { 
+                0b00000000, 0b00000000, 0b00100011, 0b00101000, 
+                0b00000000, 0b00000000, 0b00011111, 0b01000000,
+                0b00000000, 0b00000000, 0b00100011, 0b00101000 };
+
+            IParser<int> parser = new EndianOps(Endian.Big);
+
+            var (result, _) =
+                 parser
+                    .Take(2)
+                    .Call(bytes)
+                    .Value;
+
+            Assert.Equal(9000, result[0]);
+            Assert.Equal(8000, result[1]);
         }
     }
 }
