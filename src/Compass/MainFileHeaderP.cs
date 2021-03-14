@@ -9,7 +9,6 @@ namespace Compass {
 
     public class MainFileHeaderP : IParser<MainFile.Header> {
 
-
         public MainFileHeaderP() { }
 
         public (MainFile.Header, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
