@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Compass.Shapes {
+namespace Compass.MainFile {
 
-    public record BoundingBox(
+    public record HeaderBounds(
         double XMin,
         double YMin,
         double XMax,
-        double YMax);
+        double YMax,
+        double? ZMin,
+        double? ZMax,
+        double? MMin,
+        double? MMax);
 }

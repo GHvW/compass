@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Compass.shapes {
+namespace Compass.Shapes {
 
     public record Polygon(
         BoundingBox Box,
