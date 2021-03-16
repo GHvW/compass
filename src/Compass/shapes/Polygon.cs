@@ -8,8 +8,8 @@ namespace Compass.Shapes {
 
     public record Polygon(
         BoundingBox Box,
-        int PointsCount, 
         int PartsCount, 
-        IEnumerable<Point> Points,
-        IEnumerable<int> Parts);
+        int PointsCount, 
+        IEnumerable<int> Parts,
+        IEnumerable<Point> Points);
 }
