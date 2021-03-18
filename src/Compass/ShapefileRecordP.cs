@@ -7,23 +7,31 @@ using System.Threading.Tasks;
 
 namespace Compass {
 
-    public class ShapefileRecordP : 
-        IParser<ShapefileRecord<Point>>,
-        IParser<ShapefileRecord<Polygon>> {
+    public class PolygonShapefileRecordP : IParser<ShapefileRecord<Polygon>> {
 
-        public ShapefileRecordP() { }
+        public PolygonShapefileRecordP() { }
+
+        public (ShapefileRecord<Polygon>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) =>
+            (from header in new RecordHeaderP()
+             from shapeTypeIndex in new LittleInt()
+             from polygon in new PolygonP()
+             select new ShapefileRecord<Polygon>(
+                 header, 
+                 new ShapeRecord<Polygon>(shapeTypeIndex.ToShapeType(), polygon)))
+            .Call(bytes);
+    }
+
+    public class PointShapefileRecordP : IParser<ShapefileRecord<Point>> {
+
+        public PointShapefileRecordP() { }
 
         public (ShapefileRecord<Point>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) =>
-            (from header in new IntP(Endian.Big).ReadRecordHeader()
-             from shapeTypeIndex in new IntP(Endian.Little)
-             from point in new DoubleP(Endian.Little).ReadPoints()
+            (from header in new RecordHeaderP()
+             from shapeTypeIndex in new LittleInt()
+             from point in new PointP()
              select new ShapefileRecord<Point>(
                  header, 
                  new ShapeRecord<Point>(shapeTypeIndex.ToShapeType(), point)))
             .Call(bytes);
-
-        (ShapefileRecord<Polygon>, ArraySegment<byte>)? IParser<ShapefileRecord<Polygon>>.Call(ArraySegment<byte> bytes) {
-            throw new NotImplementedException();
-        }
     }
 }

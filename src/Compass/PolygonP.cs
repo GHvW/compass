@@ -8,14 +8,14 @@ namespace Compass {
         public PolygonP() { }
 
         public (Polygon, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
-            var doubleReader = new DoubleP(Endian.Little);
-            var intReader = new IntP(Endian.Little);
+            var doubleReader = new LittleDouble();
+            var intReader = new LittleInt();
 
-            return (from bounds in doubleReader.ReadBoundingBox() 
+            return (from bounds in new BoundingBoxP() 
                     from partsCount in intReader
                     from pointsCount in intReader
                     from parts in intReader.Take(partsCount)
-                    from points in doubleReader.ReadPoints().Take(pointsCount)
+                    from points in new PointP().Take(pointsCount)
                     select new Polygon(bounds, partsCount, pointsCount, parts, points))
                    .Call(bytes);
         }

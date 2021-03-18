@@ -12,12 +12,12 @@ namespace Compass {
         public MainFileHeaderP() { }
 
         public (MainFile.Header, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
-            var littleInt = new IntP(Endian.Little);
+            var littleInt = new LittleInt();
 
-            return (from start in new IntP(Endian.Big).Take(7)
+            return (from start in new BigInt().Take(7)
                     from version in littleInt
                     from shapeType in littleInt
-                    from bounds in new DoubleP(Endian.Little).Take(8)
+                    from bounds in new LittleDouble().Take(8)
                     select new MainFile.Header(
                         start[0], 
                         start[6], 

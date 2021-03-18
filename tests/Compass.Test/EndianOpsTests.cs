@@ -11,7 +11,7 @@ namespace Compass.Test {
         public void ReadBigEndianInt(byte[] bytes) {
 
             //IParser<int> ops = new EndianOps(Endian.Big);
-            var (result, _) = new IntP(Endian.Big).Call(bytes).Value;
+            var (result, _) = new BigInt().Call(bytes).Value;
 
             var expected = 555_874_238;
             Assert.Equal(result, expected);
@@ -21,7 +21,7 @@ namespace Compass.Test {
         public void ReadBigEndianIntRemainingBytesLeftAreCorrect() { 
             var initial = new byte[] { 0b00100001, 0b00100001, 0b11110111, 0b10101110, 0b00110001, 0b00100011, 0b11110011, 0b10011110 };
 
-            var (_, rest) = new IntP(Endian.Big).Call(initial).Value;
+            var (_, rest) = new BigInt().Call(initial).Value;
 
             var expectedBytes = new byte[] { 0b00110001, 0b00100011, 0b11110011, 0b10011110 };
 
@@ -37,7 +37,7 @@ namespace Compass.Test {
         public void ReadLittleIndianInt(byte[] bytes) {
 
             var (result, _) = 
-                new IntP(Endian.Little)
+                new LittleInt()
                     .Call(bytes)
                     .Value;
 
@@ -46,12 +46,12 @@ namespace Compass.Test {
         }
 
         [Theory]
-        [InlineData(new byte[] { 0b01000000, 0b11001000, 0b00011100, 0b11010110, 0b11100110, 0b00110001, 0b11111000, 0b10100001 })]
-        [InlineData(new byte[] { 0b01000000, 0b11001000, 0b00011100, 0b11010110, 0b11100110, 0b00110001, 0b11111000, 0b10100001,
+        [InlineData(new byte[] { 0b10100001, 0b11111000, 0b00110001, 0b11100110, 0b11010110, 0b00011100, 0b11001000, 0b01000000 })]
+        [InlineData(new byte[] { 0b10100001, 0b11111000, 0b00110001, 0b11100110, 0b11010110, 0b00011100, 0b11001000, 0b01000000,
         0b01001100, 0b11011100, 0b01011100, 0b11000100, 0b10100110, 0b00110101, 0b11011000, 0b10101001 })]
-        public void ReadBigndianDouble(byte[] bytes) {
+        public void ReadLittleEndianDouble(byte[] bytes) {
 
-            var ops = new DoubleP(Endian.Big);
+            var ops = new LittleDouble();
 
             var (result, _) = ops.Call(bytes).Value;
 

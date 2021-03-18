@@ -6,16 +6,14 @@ namespace Compass {
 
     public class PointP : IParser<Point> {
 
-        private readonly IParser<double> parser;
+        public PointP() { }
 
-        public PointP(IParser<double> parser) {
-            this.parser = parser;
+        public (Point, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
+            var parser = new LittleDouble();
+            return (from x in parser
+                    from y in parser
+                    select new Point(x, y))
+                   .Call(bytes);
         }
-
-        public (Point, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) =>
-            (from x in this.parser
-             from y in this.parser
-             select new Point(x, y))
-            .Call(bytes);
     }
 }

@@ -14,7 +14,7 @@ namespace Compass.Test {
             var bytes = new byte[] { 0b00000000, 0b00000000, 0b00100011, 0b00101000 };
 
             var (result, _) =
-                new IntP(Endian.Big)
+                new BigInt()
                     .Select(x => x + 9)
                     .Call(bytes)
                     .Value;
@@ -27,7 +27,7 @@ namespace Compass.Test {
             var bytes = new byte[] { 0b00000000, 0b00000000, 0b00100011, 0b00101000 };
 
             var (result, _) =
-                new IntP(Endian.Big)
+                new BigInt()
                     .SelectMany(x => new Return<int>(x + 9))
                     .Call(bytes)
                     .Value;
@@ -42,7 +42,7 @@ namespace Compass.Test {
                 0b00000000, 0b00000000, 0b00011111, 0b01000000,
                 0b00000000, 0b00000000, 0b00100011, 0b00101000 };
 
-            var parser = new IntP(Endian.Big);
+            var parser = new BigInt();
 
             var (result, _) =
                 (from x in parser
@@ -62,7 +62,7 @@ namespace Compass.Test {
                 0b00000000, 0b00000000, 0b00011111, 0b01000000,
                 0b00000000, 0b00000000, 0b00100011, 0b00101000 };
 
-            var parser = new IntP(Endian.Big);
+            var parser = new BigInt();
 
             var (result, _) =
                  parser

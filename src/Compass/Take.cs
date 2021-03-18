@@ -22,11 +22,10 @@ namespace Compass {
         public (List<A>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) =>
             Enumerable
                 .Range(0, this.n)
-                .Select(_ => this.parser)
                 //.Aggregate(new Return<ImmutableList<A>>(ImmutableList<A>.Empty) as IParser<ImmutableList<A>>, (result, p) => {
-                .Aggregate(new Return<List<A>>(new List<A>()) as IParser<List<A>>, (result, p) => {
+                .Aggregate(new Return<List<A>>(new List<A>()) as IParser<List<A>>, (result, _) => {
                     return (from list in result
-                            from item in p
+                            from item in this.parser
                                 //select list.Add(item)); //works with ImmutableList but not List
                             select AddItem(list, item));
                 })
