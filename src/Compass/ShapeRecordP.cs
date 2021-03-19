@@ -7,24 +7,18 @@ using System.Threading.Tasks;
 
 namespace Compass {
 
-    //public class ShapeRecordP :
-    //    IParser<ShapeRecord<Point>>,
-    //    IParser<ShapeRecord<Polygon>> {
+    public class ShapeRecordP<A> : IParser<ShapeRecord<A>> {
 
-    //    public ShapeRecordP() { }
+        private readonly IParser<A> parser; 
+        public ShapeRecordP(IParser<A> parser) {
+            this.parser = parser;
+        }
 
-    //    public (ShapeRecord<Point>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
-    //        return (from shapeTypeIndex in new IntP(Endian.Little)
-    //                from points in new DoubleP(Endian.Little).ReadPoints()
-    //                select new ShapeRecord<Point>(shapeTypeIndex.ToShapeType(), points))
-    //               .Call(bytes);
-    //    }
-
-    //    (ShapeRecord<Polygon>, ArraySegment<byte>)? IParser<ShapeRecord<Polygon>>.Call(ArraySegment<byte> bytes) {
-    //        return (from shapeTypeIndex in new IntP(Endian.Little)
-    //                from polygons in new PolygonP()
-    //                select new ShapeRecord<Polygon>(shapeTypeIndex.ToShapeType(), polygons))
-    //               .Call(bytes);
-    //    }
-    //}
+        public (ShapeRecord<A>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
+            return (from shapeTypeIndex in new LittleInt()
+                    from shape in parser
+                    select new ShapeRecord<A>(shapeTypeIndex.ToShapeType(), shape))
+                   .Call(bytes);
+        }
+    }
 }

@@ -18,5 +18,11 @@ namespace Compass {
 
         public static IParser<List<A>> Take<A>(this IParser<A> parser, int n) =>
             new Take<A>(n, parser);
+
+        public static IParser<ShapeRecord<A>> AsShapeRecord<A>(this IParser<A> @this) =>
+            new ShapeRecordP<A>(@this);
+
+        public static IParser<ShapefileRecord<A>> ShapefileRecord<A>(this IParser<ShapeRecord<A>> @this) =>
+            new ShapefileRecordP<A>(@this);
     }
 }

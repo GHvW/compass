@@ -7,31 +7,19 @@ using System.Threading.Tasks;
 
 namespace Compass {
 
-    public class PolygonShapefileRecordP : IParser<ShapefileRecord<Polygon>> {
+    public class ShapefileRecordP<A> : IParser<ShapefileRecord<A>> {
 
-        public PolygonShapefileRecordP() { }
+        private readonly IParser<ShapeRecord<A>> parser;
 
-        public (ShapefileRecord<Polygon>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) =>
-            (from header in new RecordHeaderP()
-             from shapeTypeIndex in new LittleInt()
-             from polygon in new PolygonP()
-             select new ShapefileRecord<Polygon>(
-                 header,
-                 new ShapeRecord<Polygon>(shapeTypeIndex.ToShapeType(), polygon)))
-            .Call(bytes);
-    }
+        public ShapefileRecordP(IParser<ShapeRecord<A>> parser) {
+            this.parser = parser;
+        }
 
-    public class PointShapefileRecordP : IParser<ShapefileRecord<Point>> {
-
-        public PointShapefileRecordP() { }
-
-        public (ShapefileRecord<Point>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) =>
-            (from header in new RecordHeaderP()
-             from shapeTypeIndex in new LittleInt()
-             from point in new PointP()
-             select new ShapefileRecord<Point>(
-                 header,
-                 new ShapeRecord<Point>(shapeTypeIndex.ToShapeType(), point)))
-            .Call(bytes);
+        public (ShapefileRecord<A>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
+            return (from recordHeader in new RecordHeaderP()
+                    from shapeRecord in parser
+                    select new ShapefileRecord<A>(recordHeader, shapeRecord))
+                   .Call(bytes);
+        }
     }
 }
