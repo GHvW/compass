@@ -16,7 +16,7 @@ namespace Compass {
              from shapeTypeIndex in new LittleInt()
              from polygon in new PolygonP()
              select new ShapefileRecord<Polygon>(
-                 header, 
+                 header,
                  new ShapeRecord<Polygon>(shapeTypeIndex.ToShapeType(), polygon)))
             .Call(bytes);
     }
@@ -30,7 +30,7 @@ namespace Compass {
              from shapeTypeIndex in new LittleInt()
              from point in new PointP()
              select new ShapefileRecord<Point>(
-                 header, 
+                 header,
                  new ShapeRecord<Point>(shapeTypeIndex.ToShapeType(), point)))
             .Call(bytes);
     }

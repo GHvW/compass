@@ -10,18 +10,6 @@ namespace Compass {
 
         public IntBytes() { }
 
-        //public (int, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
-        //    try {
-        //        return this.endian switch {
-        //            Endian.Big => (BinaryPrimitives.ReadInt32BigEndian(bytes.Slice(0, 4)), bytes.Slice(4)),
-        //            Endian.Little => (BinaryPrimitives.ReadInt32LittleEndian(bytes.Slice(0, 4)), bytes.Slice(4)),
-        //            _ => null
-        //        };
-        //    } catch {
-        //        return null;
-        //    }
-        //}
-
         public (ArraySegment<byte>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) {
             try {
                 return (bytes.Slice(0, 4), bytes.Slice(4));
