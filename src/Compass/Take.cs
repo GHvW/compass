@@ -18,15 +18,12 @@ namespace Compass {
             this.parser = parser;
         }
 
-        //public (ImmutableList<A>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) =>
         public (List<A>, ArraySegment<byte>)? Call(ArraySegment<byte> bytes) =>
             Enumerable
                 .Range(0, this.n)
-                //.Aggregate(new Return<ImmutableList<A>>(ImmutableList<A>.Empty) as IParser<ImmutableList<A>>, (result, p) => {
-                .Aggregate(new Return<List<A>>(new List<A>()) as IParser<List<A>>, (result, _) => {
+                .Aggregate(new Return<List<A>>(new List<A>()), (IParser<List<A>> result, int _) => {
                     return (from list in result
                             from item in this.parser
-                                //select list.Add(item)); //works with ImmutableList but not List
                             select AddItem(list, item));
                 })
                 .Call(bytes);
