@@ -22,6 +22,7 @@ namespace Compass.Shapes {
 
         public static ShapeType ToShapeType(this int @this) => @this switch {
             0 => ShapeType.Null,
+            5 => ShapeType.Polygon,
             _ => throw new System.Exception($"Invalid ShapeType index: {@this}")
         };
     }
